@@ -1,37 +1,34 @@
-"use client";
+"use client"
 
-import { useState } from "react";
+import { useState } from "react"
 
-export default function UploadPage() {
-  const [message, setMessage] = useState("");
+export default function UploadPage(){
 
-  const handleUpload = async (e: any) => {
-    const file = e.target.files[0];
+ const [file,setFile]=useState(null)
 
-    const formData = new FormData();
-    formData.append("file", file);
+ const handleUpload = async () => {
 
-    const res = await fetch("/api/upload", {
-      method: "POST",
-      body: formData,
-    });
+  const formData = new FormData()
+  formData.append("file",file)
 
-    const data = await res.json();
+  await fetch("/api/upload",{
+   method:"POST",
+   body:formData
+  })
+ }
 
-    if (data.success) {
-      setMessage(`Uploaded ${data.records} records`);
-    } else {
-      setMessage(data.error);
-    }
-  };
+ return(
+  <div>
 
-  return (
-    <div style={{ padding: 40 }}>
-      <h1>Upload Data</h1>
+   <input
+    type="file"
+    onChange={(e)=>setFile(e.target.files[0])}
+   />
 
-      <input type="file" onChange={handleUpload} />
+   <button onClick={handleUpload}>
+     Upload Dataset
+   </button>
 
-      <p>{message}</p>
-    </div>
-  );
+  </div>
+ )
 }

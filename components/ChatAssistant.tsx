@@ -1,37 +1,41 @@
 "use client"
 
-import { useState } from "react"
+import {useState} from "react"
 
-export default function ChatAssistant({stats}:any){
+export default function ChatAssistant(){
 
-  const [q,setQ] = useState("")
-  const [a,setA] = useState("")
+ const [question,setQuestion]=useState("")
+ const [answer,setAnswer]=useState("")
 
-  const ask = ()=>{
+ const askAI = async () => {
 
-    if(q.includes("recovery"))
-      setA("Recovery rate is "+
-      Math.round(stats.recovery[0].value/stats.totalPatients*100)+"%")
+  const res = await fetch("/api/chat",{
+   method:"POST",
+   body:JSON.stringify({question})
+  })
 
-    else if(q.includes("patients"))
-      setA("Total patients "+stats.totalPatients)
+  const data = await res.json()
 
-    else
-      setA("Question not recognized")
-  }
+  setAnswer(data.answer)
 
-  return(
+ }
 
-    <div style={{marginTop:40}}>
+ return(
 
-      <h3>AI Assistant</h3>
+  <div>
 
-      <input value={q} onChange={e=>setQ(e.target.value)}/>
+   <input
+    value={question}
+    onChange={(e)=>setQuestion(e.target.value)}
+   />
 
-      <button onClick={ask}>Ask</button>
+   <button onClick={askAI}>
+    Ask
+   </button>
 
-      <p>{a}</p>
+   <p>{answer}</p>
 
-    </div>
-  )
+  </div>
+
+ )
 }
