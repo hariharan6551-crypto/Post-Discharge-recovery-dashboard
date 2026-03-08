@@ -1,34 +1,29 @@
 "use client"
-
 import { useState } from "react"
+import Papa from "papaparse"
 
-export default function UploadPage(){
+export default function UploadPage() {
+  const [data,setData] = useState([])
 
- const [file,setFile]=useState(null)
+  const handleFile = (file:any) => {
+    Papa.parse(file,{
+      header:true,
+      complete:(result)=>{
+        setData(result.data)
+        localStorage.setItem("dataset",JSON.stringify(result.data))
+      }
+    })
+  }
 
- const handleUpload = async () => {
+  return (
+    <div className="p-10">
+      <h1 className="text-2xl font-bold">Upload Dataset</h1>
 
-  const formData = new FormData()
-  formData.append("file",file)
-
-  await fetch("/api/upload",{
-   method:"POST",
-   body:formData
-  })
- }
-
- return(
-  <div>
-
-   <input
-    type="file"
-    onChange={(e)=>setFile(e.target.files[0])}
-   />
-
-   <button onClick={handleUpload}>
-     Upload Dataset
-   </button>
-
-  </div>
- )
+      <input
+        type="file"
+        accept=".csv"
+        onChange={(e)=>handleFile(e.target.files[0])}
+      />
+    </div>
+  )
 }

@@ -1,19 +1,13 @@
-export default function KPIcards() {
-  const metrics = [
-    { title: "Total Patients", value: "1245" },
-    { title: "Avg Recovery Days", value: "18 days" },
-    { title: "Support Score", value: "7.4 /10" },
-    { title: "Readmission Rate", value: "11%" },
-  ]
+export default function KPICards({kpis}){
 
-  return (
-    <div className="grid grid-cols-4 gap-4">
-      {metrics.map((m, i) => (
-        <div key={i} className="bg-white p-4 shadow rounded-xl">
-          <p className="text-gray-500">{m.title}</p>
-          <h2 className="text-2xl font-bold">{m.value}</h2>
-        </div>
-      ))}
-    </div>
-  )
+ return (
+  <div className="grid grid-cols-6 gap-4">
+
+   <Card title="Total Patients" value={kpis.totalPatients}/>
+   <Card title="Avg Recovery Days" value={kpis.avgRecoveryDays}/>
+   <Card title="Support Score" value={kpis.avgSupportScore}/>
+   <Card title="Readmission Rate" value={kpis.readmissionRate}/>
+
+  </div>
+ )
 }

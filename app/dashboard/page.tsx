@@ -1,36 +1,34 @@
 "use client"
 
-import Header from "@/components/Header"
-import Sidebar from "@/components/Sidebar"
+import {useEffect,useState} from "react"
 import KPICards from "@/components/KPICards"
-import LineChart from "@/components/charts/LineChart"
-import PieChart from "@/components/charts/PieChart"
-import DatasetTable from "@/components/DatasetTable"
-import ChatAssistant from "@/components/ChatAssistant"
 
-export default function Dashboard() {
-  return (
-    <div className="flex h-screen">
+export default function Dashboard(){
 
-      <Sidebar />
+ const [data,setData] = useState([])
+ const [kpis,setKpis] = useState({})
 
-      <div className="flex-1 p-6 space-y-6">
+ useEffect(()=>{
 
-        <Header />
+  const stored = localStorage.getItem("dataset")
 
-        <KPICards />
+  if(stored){
 
-        <div className="grid grid-cols-2 gap-6">
-          <LineChart />
-          <PieChart />
-        </div>
+    const dataset = JSON.parse(stored)
 
-        <DatasetTable />
+    setData(dataset)
 
-        <ChatAssistant />
+  }
 
-      </div>
+ },[])
 
-    </div>
-  )
+ return(
+
+  <div className="p-8">
+
+   <KPICards kpis={kpis}/>
+
+  </div>
+
+ )
 }

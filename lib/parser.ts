@@ -1,14 +1,13 @@
-import Papa from "papaparse"
+export function parseDataset(data:any[]) {
 
-export function parseCSV(file){
-
- return new Promise((resolve)=>{
-
-  Papa.parse(file,{
-   header:true,
-   complete:(result)=>resolve(result.data)
-  })
-
- })
-
+ return data.map((row)=>({
+    patientId: row["Patient ID"],
+    age: Number(row["Age"]),
+    gender: row["Gender"],
+    diagnosis: row["Diagnosis"],
+    supportScore: Number(row["Support Score"]),
+    recoveryDays: Number(row["Recovery Days"]),
+    readmissionRisk: Number(row["Readmission Risk"]),
+    opVisits: Number(row["OP Visits"]),
+ }))
 }

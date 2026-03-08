@@ -1,13 +1,20 @@
-export function calculateMetrics(data){
+export function calculateKPIs(data:any[]) {
 
  const totalPatients = data.length
 
- const avgRecovery =
- data.reduce((a,b)=>a + Number(b.recovery_days),0) / totalPatients
+ const avgRecoveryDays =
+   data.reduce((a,b)=>a+b.recoveryDays,0)/totalPatients
 
- return{
-  totalPatients,
-  avgRecovery
+ const avgSupportScore =
+   data.reduce((a,b)=>a+b.supportScore,0)/totalPatients
+
+ const readmissionRate =
+   data.filter(p=>p.readmissionRisk > 0.5).length / totalPatients
+
+ return {
+   totalPatients,
+   avgRecoveryDays,
+   avgSupportScore,
+   readmissionRate
  }
-
 }
