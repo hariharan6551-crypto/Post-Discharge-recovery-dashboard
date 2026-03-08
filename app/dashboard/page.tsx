@@ -1,34 +1,43 @@
 "use client"
 
-import {useEffect,useState} from "react"
+import { useEffect, useState } from "react"
 import KPICards from "@/components/KPICards"
+import { calculateKPIs } from "@/lib/analytics"
 
-export default function Dashboard(){
+export default function Dashboard() {
 
- const [data,setData] = useState([])
- const [kpis,setKpis] = useState({})
+  const [data, setData] = useState<any[]>([])
+  const [kpis, setKpis] = useState<any>(null)
 
- useEffect(()=>{
+  useEffect(() => {
 
-  const stored = localStorage.getItem("dataset")
+    const stored = localStorage.getItem("dataset")
 
-  if(stored){
+    if (stored) {
 
-    const dataset = JSON.parse(stored)
+      const dataset = JSON.parse(stored)
 
-    setData(dataset)
+      setData(dataset)
 
+      const metrics = calculateKPIs(dataset)
+
+      setKpis(metrics)
+
+    }
+
+  }, [])
+
+  if (!kpis) {
+    return <div className="p-8">Loading dashboard...</div>
   }
 
- },[])
+  return (
 
- return(
+    <div className="p-8">
 
-  <div className="p-8">
+      <KPICards kpis={kpis} />
 
-   <KPICards kpis={kpis}/>
+    </div>
 
-  </div>
-
- )
+  )
 }
