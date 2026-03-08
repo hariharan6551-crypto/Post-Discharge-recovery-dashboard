@@ -12,12 +12,14 @@
     "@tanstack/react-table": "^8.21.3",
     "axios": "^1.13.6",
     "next": "14.2.3",
+    "openai": "^6.27.0",
     "papaparse": "^5.5.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "recharts": "^2.15.4"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.1",
     "@types/node": "25.3.5",
     "@types/react": "19.2.14",
     "autoprefixer": "^10.4.27",
